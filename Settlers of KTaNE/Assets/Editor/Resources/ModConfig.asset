@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 615501dbe4f3fe94fbf4b564abb10237, type: 3}
+  m_Name: ModConfig
+  m_EditorClassIdentifier: 
+  id: SettlersOfKtane
+  title: Settlers of KTaNE
+  author: GeekYiwen
+  description: "Settlers of KTaNE\r\nIdea by ConManAU\r\nImplemented by GeekYiwen\r\n\r\nModule-Id:
+    SettlersOfKtane\r\nModule File-ID: 2007906077\r\n\r\nPlay a simpler version of
+    Settlers of Catan!\r\n\r\nThis module has TP-Support.\r\n\r\nGo to https://ktane.timwi.de/HTML/Settlers%20of%20KTaNE.html
+    for the maunel.\r\n\r\nFor any bugs you find, please DM me either on Discord:
+    #7561 GeekYiwen or via E-Mail: yiwenmc@gmail.com\r\n\r\nIf you don't understand
+    the manuel, also feel free to ask me."
+  version: 2.5
+  outputFolder: build
+  previewImage: {fileID: 2800000, guid: 5d32307d4f51a214382a9b188fac0a2d, type: 3}
