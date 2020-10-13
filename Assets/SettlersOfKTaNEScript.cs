@@ -8,11 +8,8 @@ using KModkit;
 
 public class SettlersOfKTaNEScript : MonoBehaviour
 {
-    public KMAudio audio;
+    public new KMAudio audio;
     public KMBombInfo bomb;
-
-    public AudioClip HammerSound;
-    public AudioClip DiceRollSound;
 
     public KMSelectable BrickDisp, LumberDisp, OreDisp, GrainDisp, WoolDisp;
     public KMSelectable LeftDice, RightDice;
@@ -36,13 +33,10 @@ public class SettlersOfKTaNEScript : MonoBehaviour
     public Material[] figurColors = new Material[4];
     public String[] figurColorNames = { "white", "red", "orange", "blue" };
 
-    float volume = 0.2f;
-
     //logging
     static int moduleIdCounter = 1;
     int moduleId = 0;
     private bool isSolved = false;
-    private bool lightsOn = false;
 
     //Debug.LogFormat("[Settlers Of KTaNE #{0}] text", moduleId, );
 
@@ -60,6 +54,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
     bool trade = false;
     bool thiefMode = false;
     bool longStreetDetected = false;
+    bool[] pressedStreets = new bool[30];
     Settlement[] settlements = new Settlement[75];
     int[] settlementNo = { 2, 4, 11, 13, 15, 21, 23, 25, 30, 32, 34, 36, 40, 42, 44, 46, 51, 53, 55, 61, 63, 65, 72, 74 };
     GameObject[] houses = new GameObject[5];
@@ -134,8 +129,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
     {
         foreach (KMSelectable street in Streets)
         {
-            KMSelectable pressedObject = street;
-            street.OnInteract += delegate () { PressStreet(pressedObject); return false; };
+            street.OnInteract += delegate () { PressStreet(street); return false; };
         }
 
         Hexas[0].OnInteract += delegate () { PressHexa(0); return false; };
@@ -156,7 +150,6 @@ public class SettlersOfKTaNEScript : MonoBehaviour
         RightDice.OnInteract += delegate () { PressDice(); return false; };
         foreach (KMSelectable cylinder in cylinders)
         {
-            KMSelectable pressedObject = cylinder;
             cylinder.OnInteract += delegate () { PressCylinder(cylinder); return false; };
         }
         NosolveMode.OnInteract += delegate () { PressNoSolveMode(NosolveMode); return false; };
@@ -252,7 +245,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
             }
             firstHouse = false;
             getSettlementById(settlements, x).isSettlementSet = true;
-            AudioSource.PlayClipAtPoint(HammerSound, transform.position, volume);
+            audio.PlaySoundAtTransform("HammerSoundEffect", transform);
         }
         else
         {
@@ -283,7 +276,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                         }
                         firstHouse = false;
                         getSettlementById(settlements, x).isSettlementSet = true;
-                        AudioSource.PlayClipAtPoint(HammerSound, transform.position, volume);
+                        audio.PlaySoundAtTransform("HammerSoundEffect", transform);
 
                     }
                     else
@@ -319,7 +312,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                     Debug.LogFormat("[Settlers Of KTaNE #{0}] You upgraded your settlement to a city at {1}. (in reading order)", moduleId, getSettlementPos(x) + 1);
                     points++;
                     Debug.LogFormat("[Settlers Of KTaNE #{0}] You now have {1} points!", moduleId, points);
-                    AudioSource.PlayClipAtPoint(HammerSound, transform.position, volume);
+                    audio.PlaySoundAtTransform("HammerSoundEffect", transform);
                     Finished();
                 }
                 else
@@ -335,6 +328,9 @@ public class SettlersOfKTaNEScript : MonoBehaviour
     void PressStreet(KMSelectable street)
     {
         street.AddInteractionPunch();
+        if (pressedStreets[Array.IndexOf(Streets, street)])
+            return;
+        pressedStreets[Array.IndexOf(Streets, street)] = true;
         if (firstPath)
         {
             if (getSettlementById(settlements, streetConnections[Streetpos(street)][0]).isSettlementSet || getSettlementById(settlements, streetConnections[Streetpos(street)][1]).isSettlementSet)
@@ -348,7 +344,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                 street.GetComponent<KMSelectable>().Parent = null;
                 GetComponent<KMSelectable>().UpdateChildren();
                 Debug.LogFormat("[Settlers Of KTaNE #{0}] You placed your first street between settlement positions {1} and {2}. (in reading order)", moduleId, getSettlementPos(streetConnections[Streetpos(street)][0]) + 1, getSettlementPos(streetConnections[Streetpos(street)][1]));
-                AudioSource.PlayClipAtPoint(HammerSound, transform.position, volume);
+                audio.PlaySoundAtTransform("HammerSoundEffect", transform);
 
             }
             else
@@ -391,7 +387,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                     street.GetComponent<KMSelectable>().Highlight = null;
                     street.GetComponent<KMSelectable>().Parent = null;
                     GetComponent<KMSelectable>().UpdateChildren();
-                    AudioSource.PlayClipAtPoint(HammerSound, transform.position, volume);
+                    audio.PlaySoundAtTransform("HammerSoundEffect", transform);
                     Debug.LogFormat("[Settlers Of KTaNE #{0}] You placed a street between settlement positions {1} and {2}. (in reading order)", moduleId, getSettlementPos(streetConnections[Streetpos(street)][0]) + 1, getSettlementPos(streetConnections[Streetpos(street)][1]));
                     if (!longStreetDetected)
                     {
@@ -946,7 +942,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
 
     void PressDice()
     {
-        AudioSource.PlayClipAtPoint(DiceRollSound, transform.position, volume);
+        audio.PlaySoundAtTransform("DiceRoll", transform);
         LeftDice.AddInteractionPunch();
         RightDice.AddInteractionPunch();
         if (trade || CommandQueue != "")
@@ -1211,7 +1207,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                 }
                 else return x;
             case 4:
-                x = correctNumber(7 * int.Parse(bomb.GetSerialNumber().Substring(5)));          //multiply by last digit 
+                x = correctNumber(7 * int.Parse(bomb.GetSerialNumber().Substring(5)));          //multiply by last digit
                 if (x == 7)
                 {
                     return 6;
@@ -1847,8 +1843,8 @@ public class Settlement {
     public bool isCitySet;
     public GameObject House;
     public KMSelectable SelectObject;
-    
-    
+
+
     public Settlement(int id, KMSelectable selectObject) {     //Constructor
         this.id = id;
         path = false;
@@ -1879,7 +1875,7 @@ public class Settlement {
     {
         if (s[id].id != 11 && s[id].id != 30 && s[id].id != 40 && s[id].id != 61)
         {
-            if (((int)(id / 10)) % 2 == 0)                           
+            if (((int)(id / 10)) % 2 == 0)
             {
                 return s[id + 9];
             }
@@ -1942,4 +1938,3 @@ public class Hex
         this.streets = streets;
     }
 }
-
