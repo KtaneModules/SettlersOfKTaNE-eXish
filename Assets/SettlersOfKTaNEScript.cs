@@ -1420,46 +1420,32 @@ public class SettlersOfKTaNEScript : MonoBehaviour
         switch (partCommand)
         {
             case "c":
-                command = command.Substring(1).Trim();
                 return theHexes[0];
             case "ne":
-                command = command.Substring(2).Trim();
                 return theHexes[1];
             case "e":
-                command = command.Substring(1).Trim();
                 return theHexes[2];
             case "se":
-                command = command.Substring(2).Trim();
                 return theHexes[3];
             case "sw":
-                command = command.Substring(2).Trim();
                 return theHexes[4];
             case "w":
-                command = command.Substring(1).Trim();
                 return theHexes[5];
             case "nw":
-                command = command.Substring(2).Trim();
                 return theHexes[6];
             case "m":
-                command = command.Substring(1).Trim();
                 return theHexes[0];
             case "tr":
-                command = command.Substring(2).Trim();
                 return theHexes[1];
             case "r":
-                command = command.Substring(1).Trim();
                 return theHexes[2];
             case "br":
-                command = command.Substring(2).Trim();
                 return theHexes[3];
             case "bl":
-                command = command.Substring(2).Trim();
                 return theHexes[4];
             case "l":
-                command = command.Substring(1).Trim();
                 return theHexes[5];
             case "tl":
-                command = command.Substring(2).Trim();
                 return theHexes[6];
             default: return null;
         }
@@ -1668,34 +1654,20 @@ public class SettlersOfKTaNEScript : MonoBehaviour
         else if (Regex.IsMatch(command, @"^hex +[a-z+ +]+$"))                           //collect resource !# hex [1-7] or !# hex [cardinal]
         {
             command = command.Substring(4).Trim();
-            List<KMSelectable> myArray = new List<KMSelectable>();
-            while (command != "")
+            string[] hexas = command.Split(' ');
+            for (int i = 0; i < hexas.Length; i++)
             {
-                if (command.Length == 1 || command.Length == 2)
-                {
-
-                    myArray.Add(TPStringtoHex(command).Position);
-                    for (int i = 0; i < myArray.Count; i++)
-                    {
-                        yield return null;
-                        myArray.ElementAt(i).OnInteract();
-                        yield return new WaitForSeconds(0.05f);
-                    }
-                    yield break;
-                }
-                else if (command.Substring(1, 1) == " ")
-                {
-                    myArray.Add(TPStringtoHex(command.Substring(0, 1)).Position);
-                }
-                else if (command.Substring(2, 1) == " ")
-                {
-                    myArray.Add(TPStringtoHex(command.Substring(0, 2)).Position);
-                }
-                else
+                if (TPStringtoHex(hexas[i]) == null)
                 {
                     yield return "sendtochaterror Invalid hex coordinates.";
                     yield break;
                 }
+            }
+            yield return null;
+            for (int i = 0; i < hexas.Length; i++)
+            {
+                TPStringtoHex(hexas[i]).Position.OnInteract();
+                yield return new WaitForSeconds(0.05f);
             }
         }
         else if (Regex.IsMatch(command, @"^build +[a-z| ]*$"))
