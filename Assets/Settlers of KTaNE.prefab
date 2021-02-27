@@ -9744,8 +9744,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audio: {fileID: 114188771254418860}
   bomb: {fileID: 114810043940774846}
-  HammerSound: {fileID: 8300000, guid: e51705a3e0c451540ab6bbaba13ac61c, type: 3}
-  DiceRollSound: {fileID: 8300000, guid: d1ab192843bb8c948bfab64a4c599479, type: 3}
   BrickDisp: {fileID: 114256771997839606}
   LumberDisp: {fileID: 114078732152266962}
   OreDisp: {fileID: 114595409427365384}

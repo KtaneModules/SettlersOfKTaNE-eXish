@@ -69,6 +69,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
 
     void Start()
     {
+        //gives between 0 and 5 of each resource when initializing module
         brick = UnityEngine.Random.Range(0, 5);
         wood = UnityEngine.Random.Range(0, 5);
         ore = UnityEngine.Random.Range(0, 5);
@@ -1014,8 +1015,8 @@ public class SettlersOfKTaNEScript : MonoBehaviour
 
 
     }
-
-    void Strike(KMSelectable pressed)           //strike shortcut
+    //Handels Strike
+    void Strike(KMSelectable pressed)           
     {
         if (!isSolved || points < 5)
         {
@@ -1023,7 +1024,6 @@ public class SettlersOfKTaNEScript : MonoBehaviour
         }
         else
         {
-
             Debug.LogFormat("[Settlers Of KTaNE #{0}] This STRIKE would have been a strike, but you have finished the module already.", moduleId);
             audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.Strike, pressed.transform);
         }
@@ -1226,23 +1226,10 @@ public class SettlersOfKTaNEScript : MonoBehaviour
         }
     }
 
-    int correctNumber(int x)
+    //takes int x and subtracts 11 until the number is between 2 and 12
+    int correctNumber(int x)        
     {
-        while (true)
-        {
-            if (x >= 2 && x <= 12)
-            {
-                return x;
-            }
-            else if (x < 2)
-            {
-                x = x + 11;
-            }
-            else if (x > 12)
-            {
-                x = x - 11;
-            }
-        }
+        return 2 + ((x - 2) % 11);
     }
 
     void DrawHexField(Hex Hex)
