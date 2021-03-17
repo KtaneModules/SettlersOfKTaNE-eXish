@@ -1404,12 +1404,12 @@ public class SettlersOfKTaNEScript : MonoBehaviour
     //TP Implementation
     public string command;
 #pragma warning disable 414
-    private readonly string TwitchHelpMessage = "Roll the dice with !{0} roll or !{0} roll until <no1> <no2> <...>" +
-        " Build a settlement/city with !{0} build house/city/settlement <hexCardinal> <CardinalOfThatHex>.|" +
+    private readonly string TwitchHelpMessage = "Roll the dice with !{0} roll or !{0} roll until <no1> <no2> <...>. |" +
+        " Build a settlement/city with !{0} build house/city/settlement <hexCardinal> <CardinalOfThatHex>. |" +
         " Build a street with !{0} build street <hexCardinal> <CardinalOfThatHex>. |" +
-        " Claim one or multiple resource with !{0} hex <hexCardinal> <hexCardinal> <...>|" +
-        " Trade resources using !{0} trade <res> <res>. e.g. !{0} trade brick wood: trades 4 brick for 1 wood. Valid resource are BRICK, WOOD, ORE, GRAIN, WOOL.|" +
-        " Discard resources durin thiefmode with !{0} discard <ress> <number>. e.g. !{0} discard brick 4, discards 4 brick.|" +
+        " Claim one or multiple resource with !{0} hex <hexCardinal> <hexCardinal> <...>. |" +
+        " Trade resources using !{0} trade <res> <res>. e.g. !{0} trade brick wood: trades 4 brick for 1 wood. Valid resource are BRICK, WOOD, ORE, GRAIN, WOOL. |" +
+        " Discard resources during thiefmode with !{0} discard <res> <number>. e.g. !{0} discard brick 4, discards 4 brick. |" +
         " Valid Cardinals are N,NE,SE... & T,TR,BR,M,C..." +
         " !{0} toggleNoSolveMode <-- its self-explanatory @L.W. :P";
 #pragma warning restore 414
@@ -1651,7 +1651,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                 yield break;
             }
         }
-        else if (Regex.IsMatch(command, @"^hex +[a-z+ +]+$"))                           //collect resource !# hex [1-7] or !# hex [cardinal]
+        else if (Regex.IsMatch(command, @"^hex +[a-z+ +]+$"))                           //collect resource !# hex [cardinal]
         {
             command = command.Substring(4).Trim();
             string[] hexas = command.Split(' ');
@@ -1671,7 +1671,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
             }
         }
         else if (Regex.IsMatch(command, @"^build +[a-z| ]*$"))
-        {                                                                                       //upgrade or build settlement !# set house/city/settlement ([cardinal/numberReadingorder]of Hex) ([cardinal/numberCW]of that Hex)
+        {                                                                                       //upgrade or build settlement !# build house/city/settlement ([cardinal] of Hex) ([cardinal] of that Hex)
             command = command.Substring(6).Trim();
             if (Regex.IsMatch(command, @"^house +[a-z][a-z]? +[a-z][a-z]?$"))
             {
@@ -1682,7 +1682,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                     {
                         yield return null;
 
-                        TPStringtoHex(command.Substring(0, 2).Trim()).nearby[TPStringtoInt(command)].SelectObject.OnInteract();
+                        TPStringtoHex(command.Substring(0, 2).Trim()).nearby[TPStringtoInt(command.Substring(command.Length - 2, 2).Trim())].SelectObject.OnInteract();
                         yield break;
                     }
                     else
@@ -1704,7 +1704,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                     {
                         yield return null;
 
-                        TPStringtoHex(command.Substring(0, 2).Trim()).nearby[TPStringtoInt(command)].SelectObject.OnInteract();
+                        TPStringtoHex(command.Substring(0, 2).Trim()).nearby[TPStringtoInt(command.Substring(command.Length - 2, 2).Trim())].SelectObject.OnInteract();
                         yield break;
                     }
                     else
@@ -1726,7 +1726,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                     {
                         yield return null;
 
-                        TPStringtoHex(command.Substring(0, 2).Trim()).nearby[TPStringtoInt(command)].SelectObject.OnInteract();
+                        TPStringtoHex(command.Substring(0, 2).Trim()).nearby[TPStringtoInt(command.Substring(command.Length - 2, 2).Trim())].SelectObject.OnInteract();
                         yield break;
                     }
                     else
@@ -1780,7 +1780,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                 yield break;
             }
         }
-        else if (Regex.IsMatch(command, @"^discard +[a-z]+ +\d*$"))                                                                      //discard ressources
+        else if (Regex.IsMatch(command, @"^discard +[a-z]+ +\d*$"))                                                                      //discard resources
         {
             command = command.Substring(8).Trim();
             KMSelectable x = StringToRessourseKMSe(command);
