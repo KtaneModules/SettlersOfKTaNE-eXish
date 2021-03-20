@@ -185,7 +185,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
     void PressHexa(int z)
     {
         Hex temp = theHexes[z];
-        GetComponent<KMAudio>().PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress,temp.Position.transform);
+        GetComponent<KMAudio>().PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, temp.Position.transform);
         temp.Position.AddInteractionPunch();
         if (temp.claimable > 0)
         {
@@ -1572,8 +1572,8 @@ public class SettlersOfKTaNEScript : MonoBehaviour
         return false;
     }
 
-    string[] validStreetCoords = {"ne","e","se","sw", "w", "nw", "tr", "r", "br", "bl", "l", "tl"};
-    string[] validHexCoords = { "ne", "e", "se", "sw", "w", "nw", "c", "tr", "r", "br", "bl", "l", "tl","m" };
+    string[] validStreetCoords = { "ne", "e", "se", "sw", "w", "nw", "tr", "r", "br", "bl", "l", "tl" };
+    string[] validHexCoords = { "ne", "e", "se", "sw", "w", "nw", "c", "tr", "r", "br", "bl", "l", "tl", "m" };
     string[] validHouseCoords = { "n", "ne", "se", "s", "sw", "nw", "t", "tr", "br", "b", "bl", "tl" };
 
     IEnumerator ProcessTwitchCommand(string TPcommand)
@@ -1676,9 +1676,9 @@ public class SettlersOfKTaNEScript : MonoBehaviour
             if (Regex.IsMatch(command, @"^house +[a-z][a-z]? +[a-z][a-z]?$"))
             {
                 command = command.Substring(6).Trim();
-                if (validHexCoords.Contains(command.Substring(0, 2).Replace(" ","")))
+                if (validHexCoords.Contains(command.Substring(0, 2).Replace(" ", "")))
                 {
-                    if (validHouseCoords.Contains(command.Substring(command.Length - 2, 2).Replace(" ","")))
+                    if (validHouseCoords.Contains(command.Substring(command.Length - 2, 2).Replace(" ", "")))
                     {
                         yield return null;
 
@@ -1807,7 +1807,8 @@ public class SettlersOfKTaNEScript : MonoBehaviour
 }
 
 //_______________________________________  CLASSES  __________________________________________________
-public class Settlement {
+public class Settlement
+{
     public int id;
     public bool path;
     public bool hasDuplicatePath;
@@ -1817,7 +1818,8 @@ public class Settlement {
     public KMSelectable SelectObject;
 
 
-    public Settlement(int id, KMSelectable selectObject) {     //Constructor
+    public Settlement(int id, KMSelectable selectObject)
+    {     //Constructor
         this.id = id;
         path = false;
         hasDuplicatePath = false;
@@ -1826,14 +1828,17 @@ public class Settlement {
         this.SelectObject = selectObject;
     }
 
-    public Settlement getMiddle(Settlement[] s) {
-        if (s[id].id != 2 && s[id].id != 4 && s[id].id != 72 && s[id].id!=74) {
+    public Settlement getMiddle(Settlement[] s)
+    {
+        if (s[id].id != 2 && s[id].id != 4 && s[id].id != 72 && s[id].id != 74)
+        {
             if (((int)(id / 10)) % 2 == 0)
             {
                 if (id - 10 < 0)
                 {
                     return null;
-                } else return s[id - 10];
+                }
+                else return s[id - 10];
             }
             else
             {
