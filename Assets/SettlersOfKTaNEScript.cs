@@ -640,7 +640,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
     void shuffleArray()
     {
         diceRolls.Shuffle();
-        Debug.LogFormat("[Settlers Of KTaNE #{0}] New dicerolls are {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17}, {18}, {19}, {20}, {21}, {22}, {23}, {24}, {25}, {26}, {27}, {28}, {29} ,{30} ({31}, {32}, {33}, {34}, {35}, {36})", moduleId, diceRolls[0], diceRolls[1], diceRolls[2], diceRolls[3], diceRolls[4], diceRolls[5], diceRolls[6], diceRolls[7], diceRolls[8], diceRolls[9], diceRolls[10], diceRolls[11], diceRolls[12], diceRolls[13], diceRolls[14], diceRolls[15], diceRolls[16], diceRolls[17], diceRolls[18], diceRolls[19], diceRolls[20], diceRolls[21], diceRolls[22], diceRolls[23], diceRolls[24], diceRolls[25], diceRolls[26], diceRolls[27], diceRolls[28], diceRolls[29], diceRolls[30], diceRolls[31], diceRolls[32], diceRolls[33], diceRolls[34], diceRolls[35]);
+        Debug.LogFormat("[Settlers Of KTaNE #{0}] New dicerolls are {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17}, {18}, {19}, {20}, {21}, {22}, {23}, {24}, {25}, {26}, {27}, {28}, {29}, {30} ({31}, {32}, {33}, {34}, {35}, {36})", moduleId, diceRolls[0], diceRolls[1], diceRolls[2], diceRolls[3], diceRolls[4], diceRolls[5], diceRolls[6], diceRolls[7], diceRolls[8], diceRolls[9], diceRolls[10], diceRolls[11], diceRolls[12], diceRolls[13], diceRolls[14], diceRolls[15], diceRolls[16], diceRolls[17], diceRolls[18], diceRolls[19], diceRolls[20], diceRolls[21], diceRolls[22], diceRolls[23], diceRolls[24], diceRolls[25], diceRolls[26], diceRolls[27], diceRolls[28], diceRolls[29], diceRolls[30], diceRolls[31], diceRolls[32], diceRolls[33], diceRolls[34], diceRolls[35]);
     }
 
     bool checkValiditySettlements(Settlement s)
@@ -1564,7 +1564,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
     {
         for (int i = 0; i < list.Count(); i++)
         {
-            if (list.ElementAt(i) >= 2 && list.ElementAt(i) <= 13)
+            if (list.ElementAt(i) >= 2 && list.ElementAt(i) <= 12)
             {
                 return true;
             }
@@ -1669,6 +1669,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                 TPStringtoHex(hexas[i]).Position.OnInteract();
                 yield return new WaitForSeconds(0.05f);
             }
+            yield break;
         }
         else if (Regex.IsMatch(command, @"^build +[a-z| ]*$"))
         {                                                                                       //upgrade or build settlement !# build house/city/settlement ([cardinal] of Hex) ([cardinal] of that Hex)
@@ -1683,7 +1684,6 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                         yield return null;
 
                         TPStringtoHex(command.Substring(0, 2).Trim()).nearby[TPStringtoInt(command.Substring(command.Length - 2, 2).Trim())].SelectObject.OnInteract();
-                        yield break;
                     }
                     else
                     {
@@ -1694,6 +1694,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                 {
                     yield return "sendtochaterror Invalid hex coordinates.";
                 }
+                yield break;
             }
             else if (Regex.IsMatch(command, @"^city +[a-z][a-z]? +[a-z][a-z]?$"))
             {
@@ -1705,7 +1706,6 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                         yield return null;
 
                         TPStringtoHex(command.Substring(0, 2).Trim()).nearby[TPStringtoInt(command.Substring(command.Length - 2, 2).Trim())].SelectObject.OnInteract();
-                        yield break;
                     }
                     else
                     {
@@ -1716,6 +1716,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                 {
                     yield return "sendtochaterror Invalid hex coordinates.";
                 }
+                yield break;
             }
             else if (Regex.IsMatch(command, @"^settlement +[a-z][a-z]? +[a-z][a-z]?$"))
             {
@@ -1727,7 +1728,6 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                         yield return null;
 
                         TPStringtoHex(command.Substring(0, 2).Trim()).nearby[TPStringtoInt(command.Substring(command.Length - 2, 2).Trim())].SelectObject.OnInteract();
-                        yield break;
                     }
                     else
                     {
@@ -1738,6 +1738,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                 {
                     yield return "sendtochaterror Invalid hex coordinates.";
                 }
+                yield break;
             }
             else if (Regex.IsMatch(command, @"^street +[a-z][a-z]? +[a-z][a-z]?$"))
             {
@@ -1749,7 +1750,6 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                         yield return null;
                         int temp = TPStringtoIntStreet(command);
                         Streets[temp].OnInteract();
-                        yield break;
                     }
                     else
                     {
@@ -1760,7 +1760,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                 {
                     yield return "sendtochaterror Invalid hex coordinates.";
                 }
-
+                yield break;
             }
         }
         else if (Regex.IsMatch(command, @"^trade +[a-z]+ +[a-z]+$"))                                                                     //trade 4 for 1 !# trade [brick/ore/wool/wood/grain] [brick/ore/wool/wood/grain]
@@ -1777,8 +1777,8 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                 Anchor.OnInteract();
                 yield return new WaitForSeconds(0.1f);
                 y.OnInteract();
-                yield break;
             }
+            yield break;
         }
         else if (Regex.IsMatch(command, @"^discard +[a-z]+ +\d*$"))                                                                      //discard resources
         {
@@ -1792,14 +1792,13 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                     x.OnInteract();
                     yield return new WaitForSeconds(0.05f);
                 }
-                yield break;
             }
             else
             {
                 yield return null;
                 x.OnInteract();
-                yield break;
             }
+            yield break;
         }
         yield return "sendtochaterror Invalid command.";
         yield break;
