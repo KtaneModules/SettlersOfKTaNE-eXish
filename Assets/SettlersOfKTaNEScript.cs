@@ -1786,7 +1786,13 @@ public class SettlersOfKTaNEScript : MonoBehaviour
             KMSelectable x = StringToRessourseKMSe(command);
             if (command != "")
             {
-                for (int i = 0; i < int.Parse(command); i++)
+                int temp;
+                if (!int.TryParse(command, out temp))
+                {
+                    yield return "sendtochaterror Invalid command.";
+                    yield break;
+                }
+                for (int i = 0; i < temp; i++)
                 {
                     yield return null;
                     x.OnInteract();
