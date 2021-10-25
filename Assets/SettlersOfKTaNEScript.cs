@@ -35,7 +35,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
 
     //logging
     static int moduleIdCounter = 1;
-    int moduleId = 0;
+    int moduleId;
     private bool isSolved = false;
 
     //Debug.LogFormat("[Settlers Of KTaNE #{0}] text", moduleId, );
@@ -146,8 +146,8 @@ public class SettlersOfKTaNEScript : MonoBehaviour
         GrainDisp.OnInteract += delegate () { PressGrainDisp(); return false; };
         WoolDisp.OnInteract += delegate () { PressWoolDisp(); return false; };
         Anchor.OnInteract += delegate () { PressAnchor(); return false; };
-        LeftDice.OnInteract += delegate () { PressDice(); return false; };
-        RightDice.OnInteract += delegate () { PressDice(); return false; };
+        LeftDice.OnInteract += delegate () { PressDice(LeftDice); return false; };
+        RightDice.OnInteract += delegate () { PressDice(RightDice); return false; };
         foreach (KMSelectable cylinder in cylinders)
         {
             cylinder.OnInteract += delegate () { PressCylinder(cylinder); return false; };
@@ -176,7 +176,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
 
     void PressNoSolveMode(KMSelectable press)
     {
-        GetComponent<KMAudio>().PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, press.transform);
+        audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, press.transform);
         press.AddInteractionPunch();
         IsNoSolveMode = !IsNoSolveMode;
         Finished();
@@ -185,7 +185,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
     void PressHexa(int z)
     {
         Hex temp = theHexes[z];
-        GetComponent<KMAudio>().PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, temp.Position.transform);
+        audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, temp.Position.transform);
         temp.Position.AddInteractionPunch();
         if (temp.claimable > 0)
         {
@@ -203,7 +203,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
 
     void PressAnchor()
     {
-        GetComponent<KMAudio>().PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Anchor.transform);
+        audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Anchor.transform);
         Anchor.AddInteractionPunch();
         trade = true;
     }
@@ -704,7 +704,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
     {
 
         Debug.LogFormat("[Settlers Of KTaNE #{0}] Brick pressed.", moduleId);
-        GetComponent<KMAudio>().PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, BrickDisp.transform);
+        audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, BrickDisp.transform);
         BrickDisp.AddInteractionPunch();
         if (thiefMode)
         {
@@ -752,7 +752,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
     {
 
         Debug.LogFormat("[Settlers Of KTaNE #{0}] Wood pressed.", moduleId);
-        GetComponent<KMAudio>().PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, LumberDisp.transform);
+        audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, LumberDisp.transform);
         if (thiefMode)
         {
             if (wood > 0)
@@ -797,7 +797,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
     {
 
         Debug.LogFormat("[Settlers Of KTaNE #{0}] Ore pressed.", moduleId);
-        GetComponent<KMAudio>().PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, OreDisp.transform);
+        audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, OreDisp.transform);
         if (thiefMode)
         {
             if (ore > 0)
@@ -842,7 +842,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
     {
 
         Debug.LogFormat("[Settlers Of KTaNE #{0}] Grain pressed.", moduleId);
-        GetComponent<KMAudio>().PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, GrainDisp.transform);
+        audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, GrainDisp.transform);
         GrainDisp.AddInteractionPunch();
         if (thiefMode)
         {
@@ -888,7 +888,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
     {
 
         Debug.LogFormat("[Settlers Of KTaNE #{0}] Wood pressed.", moduleId);
-        GetComponent<KMAudio>().PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, WoolDisp.transform);
+        audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, WoolDisp.transform);
         WoolDisp.AddInteractionPunch();
         if (thiefMode)
         {
@@ -940,11 +940,10 @@ public class SettlersOfKTaNEScript : MonoBehaviour
         Debug.LogFormat("[Settlers Of KTaNE #{0}] You now have {1} brick, {2} wood, {3} ore, {4} grain and {5} wool.", moduleId, brick, wood, ore, grain, wool);
     }
 
-    void PressDice()
+    void PressDice(KMSelectable pressed)
     {
-        audio.PlaySoundAtTransform("DiceRoll", transform);
-        LeftDice.AddInteractionPunch();
-        RightDice.AddInteractionPunch();
+        audio.PlaySoundAtTransform("DiceRoll", pressed.transform);
+        pressed.AddInteractionPunch();
         if (trade || CommandQueue != "")
         {
             CommandQueue = "";
@@ -995,20 +994,20 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                 }
                 else
                 {
-                    Strike(LeftDice);
+                    Strike(pressed);
                     Debug.LogFormat("[Settlers Of KTaNE #{0}] STRIKE due to: Not all resource have been claimed yet. Don't waste!", moduleId);
 
                 }
             }
             else
             {
-                Strike(LeftDice);
+                Strike(pressed);
                 Debug.LogFormat("[Settlers Of KTaNE #{0}] STRIKE due to: Not enough resource have been discarded yet!", moduleId);
             }
         }
         else
         {
-            Strike(LeftDice);
+            Strike(pressed);
             Debug.LogFormat("[Settlers Of KTaNE #{0}] STRIKE due to: Not all resource have been discarded yet OR haven't build first street or settlement.", moduleId);
         }
 
@@ -1408,10 +1407,10 @@ public class SettlersOfKTaNEScript : MonoBehaviour
         " Build a settlement/city with !{0} build house/city/settlement <hexCardinal> <CardinalOfThatHex>. |" +
         " Build a street with !{0} build street <hexCardinal> <CardinalOfThatHex>. |" +
         " Claim one or multiple resource with !{0} hex <hexCardinal> <hexCardinal> <...>. |" +
-        " Trade resources using !{0} trade <res> <res>. e.g. !{0} trade brick wood: trades 4 brick for 1 wood. Valid resource are BRICK, WOOD, ORE, GRAIN, WOOL. |" +
+        " Trade resources using !{0} trade <res> <res>. e.g. !{0} trade brick wood: trades 4 brick for 1 wood. Valid resources are BRICK, WOOD, ORE, GRAIN, WOOL. |" +
         " Discard resources during thiefmode with !{0} discard <res> <number>. e.g. !{0} discard brick 4, discards 4 brick. |" +
         " Valid Cardinals are N,NE,SE... & T,TR,BR,M,C..." +
-        " !{0} toggleNoSolveMode <-- its self-explanatory @L.W. :P";
+        " !{0} toggleNoSolveMode <-- its self-explanatory @TheLegendWilleh :P";
 #pragma warning restore 414
 
 
@@ -1560,16 +1559,14 @@ public class SettlersOfKTaNEScript : MonoBehaviour
         }
     }
 
-    bool ArrayHasDiceNumber(List<int> list)
+    bool ArrayHasDiceNumbers(List<int> list)
     {
         for (int i = 0; i < list.Count(); i++)
         {
-            if (list.ElementAt(i) >= 2 && list.ElementAt(i) <= 12)
-            {
-                return true;
-            }
+            if (list.ElementAt(i) < 2 || list.ElementAt(i) > 12)
+                return false;
         }
-        return false;
+        return true;
     }
 
     string[] validStreetCoords = { "ne", "e", "se", "sw", "w", "nw", "tr", "r", "br", "bl", "l", "tl" };
@@ -1628,21 +1625,28 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                     yield break;
                 }
             }
-            if (ArrayHasDiceNumber(myArray))
+            if (ArrayHasDiceNumbers(myArray))
             {
+                yield return null;
                 while (true)
                 {
+                    int choice = UnityEngine.Random.Range(0, 2);
                     for (int i = 0; i < myArray.Count(); i++)
                     {
                         if (diceRolls[counter] == myArray.ElementAt(i))
                         {
-                            yield return null;
-                            LeftDice.OnInteract();
+                            if (choice == 0)
+                                LeftDice.OnInteract();
+                            else
+                                RightDice.OnInteract();
                             yield break;
                         }
                     }
-                    yield return null;
-                    LeftDice.OnInteract();
+                    if (choice == 0)
+                        LeftDice.OnInteract();
+                    else
+                        RightDice.OnInteract();
+                    yield return new WaitForSeconds(0.05f);
                 }
             }
             else
