@@ -410,7 +410,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
             else
             {
                 Strike(street);
-                Debug.LogFormat("[Settlers Of KTaNE #{0}] STRIKE due to: Not enough resource for a street. You had {1} wood and {2} brick.", moduleId, wood, brick);
+                Debug.LogFormat("[Settlers Of KTaNE #{0}] STRIKE due to: Not enough resource for a street. You had {1} lumber and {2} brick.", moduleId, wood, brick);
             }
         }
     }
@@ -528,7 +528,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                 {
                     isSolved = true;
                     Debug.LogFormat("[Settlers Of KTaNE #{0}] Module SOLVED! You built up a good township. Well done.", moduleId);
-                    Debug.LogFormat("[Settlers Of KTaNE #{0}] If you think there is a bug anywhere please let me know. Message me via Discord GeekYiwen#7561 or via e-Mail: yiwenmc@gmail.com. Thank you very much!", moduleId);
+                    Debug.LogFormat("[Settlers Of KTaNE #{0}] If you think there is a bug anywhere please let me know. Message me via Discord eXish#9815. Thank you very much!", moduleId);
                     GetComponent<KMBombModule>().HandlePass();
 
                 }
@@ -692,7 +692,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
             case "B": return "brick";
             case "G": return "grain";
             case "O": return "ore";
-            case "W": return "wood";
+            case "W": return "lumber";
             case "S": return "wool";
 
 
@@ -751,7 +751,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
     void PressLumberDisp()
     {
 
-        Debug.LogFormat("[Settlers Of KTaNE #{0}] Wood pressed.", moduleId);
+        Debug.LogFormat("[Settlers Of KTaNE #{0}] Lumber pressed.", moduleId);
         audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, LumberDisp.transform);
         if (thiefMode)
         {
@@ -887,7 +887,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
     void PressWoolDisp()
     {
 
-        Debug.LogFormat("[Settlers Of KTaNE #{0}] Wood pressed.", moduleId);
+        Debug.LogFormat("[Settlers Of KTaNE #{0}] Wool pressed.", moduleId);
         audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, WoolDisp.transform);
         WoolDisp.AddInteractionPunch();
         if (thiefMode)
@@ -937,7 +937,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
         LumberNo.GetComponentInChildren<TextMesh>().text = "" + wood;
         WoolNo.GetComponentInChildren<TextMesh>().text = "" + wool;
         BrickNo.GetComponentInChildren<TextMesh>().text = "" + brick;
-        Debug.LogFormat("[Settlers Of KTaNE #{0}] You now have {1} brick, {2} wood, {3} ore, {4} grain and {5} wool.", moduleId, brick, wood, ore, grain, wool);
+        Debug.LogFormat("[Settlers Of KTaNE #{0}] You now have {1} brick, {2} lumber, {3} ore, {4} grain and {5} wool.", moduleId, brick, wood, ore, grain, wool);
     }
 
     void PressDice(KMSelectable pressed)
@@ -1407,7 +1407,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
         " Build a settlement/city with !{0} build house/city/settlement <hexCardinal> <CardinalOfThatHex>. |" +
         " Build a street with !{0} build street <hexCardinal> <CardinalOfThatHex>. |" +
         " Claim one or multiple resource with !{0} hex <hexCardinal> <hexCardinal> <...>. |" +
-        " Trade resources using !{0} trade <res> <res>. e.g. !{0} trade brick wood: trades 4 brick for 1 wood. Valid resources are BRICK, WOOD, ORE, GRAIN, WOOL. |" +
+        " Trade resources using !{0} trade <res> <res>. e.g. !{0} trade brick lumber: trades 4 brick for 1 lumber. Valid resources are BRICK, LUMBER, ORE, GRAIN, WOOL. |" +
         " Discard resources during thiefmode with !{0} discard <res> <number>. e.g. !{0} discard brick 4, discards 4 brick. |" +
         " Valid Cardinals are N,NE,SE... & T,TR,BR,M,C..." +
         " !{0} toggleNoSolveMode <-- its self-explanatory @TheLegendWilleh :P";
@@ -1457,9 +1457,9 @@ public class SettlersOfKTaNEScript : MonoBehaviour
             command = command.Substring(5).Trim();
             return BrickDisp;
         }
-        else if (command.StartsWith("wood"))
+        else if (command.StartsWith("lumber"))
         {
-            command = command.Substring(4).Trim();
+            command = command.Substring(6).Trim();
             return LumberDisp;
         }
         else if (command.StartsWith("wool"))
@@ -1767,7 +1767,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                 yield break;
             }
         }
-        else if (Regex.IsMatch(command, @"^trade +[a-z]+ +[a-z]+$"))                                                                     //trade 4 for 1 !# trade [brick/ore/wool/wood/grain] [brick/ore/wool/wood/grain]
+        else if (Regex.IsMatch(command, @"^trade +[a-z]+ +[a-z]+$"))                                                                     //trade 4 for 1 !# trade [brick/ore/wool/lumber/grain] [brick/ore/wool/lumber/grain]
         {
             command = command.Substring(6).Trim();
 
