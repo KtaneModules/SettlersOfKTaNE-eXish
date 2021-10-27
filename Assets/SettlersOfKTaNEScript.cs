@@ -1413,7 +1413,6 @@ public class SettlersOfKTaNEScript : MonoBehaviour
         " !{0} toggleNoSolveMode <-- its self-explanatory @TheLegendWilleh :P";
 #pragma warning restore 414
 
-
     Hex TPStringtoHex(String partCommand)
     {
         switch (partCommand)
@@ -1462,9 +1461,19 @@ public class SettlersOfKTaNEScript : MonoBehaviour
             command = command.Substring(6).Trim();
             return LumberDisp;
         }
+        else if (command.StartsWith("wood"))
+        {
+            command = command.Substring(4).Trim();
+            return LumberDisp;
+        }
         else if (command.StartsWith("wool"))
         {
             command = command.Substring(4).Trim();
+            return WoolDisp;
+        }
+        else if (command.StartsWith("sheep"))
+        {
+            command = command.Substring(5).Trim();
             return WoolDisp;
         }
         else if (command.StartsWith("ore"))
@@ -1472,7 +1481,17 @@ public class SettlersOfKTaNEScript : MonoBehaviour
             command = command.Substring(3).Trim();
             return OreDisp;
         }
-        else if (command.StartsWith("grain"))
+        else if (command.StartsWith("rock"))
+        {
+            command = command.Substring(4).Trim();
+            return OreDisp;
+        }
+        else if (command.StartsWith("stone"))
+        {
+            command = command.Substring(5).Trim();
+            return OreDisp;
+        }
+        else if (command.StartsWith("grain") || command.StartsWith("wheat"))
         {
             command = command.Substring(5).Trim();
             return GrainDisp;
@@ -1766,11 +1785,32 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                 }
                 yield break;
             }
+            else if (Regex.IsMatch(command, @"^road +[a-z][a-z]? +[a-z][a-z]?$"))
+            {
+                command = command.Substring(5).Trim();
+                if (validHexCoords.Contains(command.Substring(0, 2).Replace(" ", "")))
+                {
+                    if (validStreetCoords.Contains(command.Substring(command.Length - 2, 2).Replace(" ", "")))
+                    {
+                        yield return null;
+                        int temp = TPStringtoIntStreet(command);
+                        Streets[temp].OnInteract();
+                    }
+                    else
+                    {
+                        yield return "sendtochaterror Invalid street coordinates.";
+                    }
+                }
+                else
+                {
+                    yield return "sendtochaterror Invalid hex coordinates.";
+                }
+                yield break;
+            }
         }
         else if (Regex.IsMatch(command, @"^trade +[a-z]+ +[a-z]+$"))                                                                     //trade 4 for 1 !# trade [brick/ore/wool/lumber/grain] [brick/ore/wool/lumber/grain]
         {
             command = command.Substring(6).Trim();
-
             KMSelectable x = StringToRessourseKMSe(command);
             KMSelectable y = StringToRessourseKMSe(command);
             if (command == "")
