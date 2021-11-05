@@ -639,7 +639,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
 
     void shuffleArray()
     {
-        diceRolls.Shuffle();
+        diceRolls = diceRolls.Shuffle();
         Debug.LogFormat("[Settlers Of KTaNE #{0}] New dicerolls are {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17}, {18}, {19}, {20}, {21}, {22}, {23}, {24}, {25}, {26}, {27}, {28}, {29}, {30} ({31}, {32}, {33}, {34}, {35}, {36})", moduleId, diceRolls[0], diceRolls[1], diceRolls[2], diceRolls[3], diceRolls[4], diceRolls[5], diceRolls[6], diceRolls[7], diceRolls[8], diceRolls[9], diceRolls[10], diceRolls[11], diceRolls[12], diceRolls[13], diceRolls[14], diceRolls[15], diceRolls[16], diceRolls[17], diceRolls[18], diceRolls[19], diceRolls[20], diceRolls[21], diceRolls[22], diceRolls[23], diceRolls[24], diceRolls[25], diceRolls[26], diceRolls[27], diceRolls[28], diceRolls[29], diceRolls[30], diceRolls[31], diceRolls[32], diceRolls[33], diceRolls[34], diceRolls[35]);
     }
 
