@@ -1650,22 +1650,16 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                 while (true)
                 {
                     int choice = UnityEngine.Random.Range(0, 2);
-                    for (int i = 0; i < myArray.Count(); i++)
-                    {
-                        if (diceRolls[counter] == myArray.ElementAt(i))
-                        {
-                            if (choice == 0)
-                                LeftDice.OnInteract();
-                            else
-                                RightDice.OnInteract();
-                            yield break;
-                        }
-                    }
                     if (choice == 0)
                         LeftDice.OnInteract();
                     else
                         RightDice.OnInteract();
                     yield return new WaitForSeconds(0.05f);
+                    for (int i = 0; i < myArray.Count(); i++)
+                    {
+                        if (diceroll == myArray.ElementAt(i))
+                            yield break;
+                    }
                 }
             }
             else
