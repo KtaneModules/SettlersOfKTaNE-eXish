@@ -18,8 +18,8 @@ MonoBehaviour:
     https://steamcommunity.com/sharedfiles/filedetails/?id=2007906077\r\n\r\nPlay
     a simpler version of Settlers of Catan!\r\n\r\nHTML: https://ktane.timwi.de/HTML/Settlers%20of%20KTaNE.html\r\nPDF:
     https://ktane.timwi.de/PDF/Settlers%20of%20KTaNE.pdf\r\n\r\nSettlers of KTaNE
-    (SettlersOfKTaNE) v1.4.7\nIdea by ConManAU\nImplementation by GeekYiwen\nMaintained
+    (SettlersOfKTaNE) v1.4.8\nIdea by ConManAU\nImplementation by GeekYiwen\nMaintained
     by eXish\r\nTwitch Plays supported"
-  version: 1.4.7
+  version: 1.4.8
   outputFolder: build
   previewImage: {fileID: 2800000, guid: 5d32307d4f51a214382a9b188fac0a2d, type: 3}

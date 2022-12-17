@@ -255,7 +255,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                 {
                     if (!isEmpty(houses))
                     {
-                        wood--;
+                        wood--; 
                         grain--;
                         wool--;
                         brick--;
@@ -355,7 +355,6 @@ public class SettlersOfKTaNEScript : MonoBehaviour
         }
         else
         {
-
             if (wood > 0 && brick > 0)
             {
                 if (getSettlementById(settlements, streetConnections[Streetpos(street)][0]).path || getSettlementById(settlements, streetConnections[Streetpos(street)][1]).path)
@@ -1407,7 +1406,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
         " Build a settlement/city with !{0} build house/city/settlement <hexCardinal> <CardinalOfThatHex>. |" +
         " Build a street with !{0} build street <hexCardinal> <CardinalOfThatHex>. |" +
         " Claim one or multiple resource with !{0} hex <hexCardinal> <hexCardinal> <...>. |" +
-        " Trade resources using !{0} trade <res> <res>. e.g. !{0} trade brick lumber: trades 4 brick for 1 lumber. Valid resources are BRICK, LUMBER, ORE, GRAIN, WOOL. |" +
+        " Trade resources using !{0} trade <res> <res>. e.g. !{0} trade brick lumber: trades 3 brick for 1 lumber. Valid resources are BRICK, LUMBER, ORE, GRAIN, WOOL. |" +
         " Discard resources during thiefmode with !{0} discard <res> <number>. e.g. !{0} discard brick 4, discards 4 brick. |" +
         " Valid Cardinals are N,NE,SE... & T,TR,BR,M,C..." +
         " !{0} toggleNoSolveMode <-- its self-explanatory @TheLegendWilleh :P";
