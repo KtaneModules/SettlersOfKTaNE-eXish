@@ -343,7 +343,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                 street.GetComponent<KMSelectable>().Highlight = null;
                 street.GetComponent<KMSelectable>().Parent = null;
                 GetComponent<KMSelectable>().UpdateChildren();
-                Debug.LogFormat("[Settlers Of KTaNE #{0}] You placed your first street between settlement positions {1} and {2}. (in reading order)", moduleId, getSettlementPos(streetConnections[Streetpos(street)][0]) + 1, getSettlementPos(streetConnections[Streetpos(street)][1]));
+                Debug.LogFormat("[Settlers Of KTaNE #{0}] You placed your first road between settlement positions {1} and {2}. (in reading order)", moduleId, getSettlementPos(streetConnections[Streetpos(street)][0]) + 1, getSettlementPos(streetConnections[Streetpos(street)][1]));
                 audio.PlaySoundAtTransform("HammerSoundEffect", transform);
 
             }
@@ -387,7 +387,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                     street.GetComponent<KMSelectable>().Parent = null;
                     GetComponent<KMSelectable>().UpdateChildren();
                     audio.PlaySoundAtTransform("HammerSoundEffect", transform);
-                    Debug.LogFormat("[Settlers Of KTaNE #{0}] You placed a street between settlement positions {1} and {2}. (in reading order)", moduleId, getSettlementPos(streetConnections[Streetpos(street)][0]) + 1, getSettlementPos(streetConnections[Streetpos(street)][1]));
+                    Debug.LogFormat("[Settlers Of KTaNE #{0}] You placed a road between settlement positions {1} and {2}. (in reading order)", moduleId, getSettlementPos(streetConnections[Streetpos(street)][0]) + 1, getSettlementPos(streetConnections[Streetpos(street)][1]));
                     if (!longStreetDetected)
                     {
                         longStreet(getSettlementById(settlements, streetConnections[Streetpos(street)][0]), 1, 10);
@@ -403,13 +403,13 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                 else
                 {
                     Strike(street);
-                    Debug.LogFormat("[Settlers Of KTaNE #{0}] STRIKE due to: No neaby street.", moduleId);
+                    Debug.LogFormat("[Settlers Of KTaNE #{0}] STRIKE due to: No neaby road.", moduleId);
                 }
             }
             else
             {
                 Strike(street);
-                Debug.LogFormat("[Settlers Of KTaNE #{0}] STRIKE due to: Not enough resource for a street. You had {1} lumber and {2} brick.", moduleId, wood, brick);
+                Debug.LogFormat("[Settlers Of KTaNE #{0}] STRIKE due to: Not enough resource for a road. You had {1} lumber and {2} brick.", moduleId, wood, brick);
             }
         }
     }
@@ -421,7 +421,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
         if (iteration == 6)                                                       //done
         {
             points = points + 2;
-            Debug.LogFormat("[Settlers Of KTaNE #{0}] You have built a street with the length of 5! You have {1} points", moduleId, points);
+            Debug.LogFormat("[Settlers Of KTaNE #{0}] You have built a road with the length of 5! You have {1} points", moduleId, points);
             longStreetDetected = true;
         }
         else
@@ -1007,7 +1007,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
         else
         {
             Strike(pressed);
-            Debug.LogFormat("[Settlers Of KTaNE #{0}] STRIKE due to: Not all resource have been discarded yet OR haven't build first street or settlement.", moduleId);
+            Debug.LogFormat("[Settlers Of KTaNE #{0}] STRIKE due to: Not all resource have been discarded yet OR haven't build first road or settlement.", moduleId);
         }
 
 
@@ -1404,7 +1404,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
 #pragma warning disable 414
     private readonly string TwitchHelpMessage = "Roll the dice with !{0} roll or !{0} roll until <no1> <no2> <...>. |" +
         " Build a settlement/city with !{0} build house/city/settlement <hexCardinal> <CardinalOfThatHex>. |" +
-        " Build a street with !{0} build street <hexCardinal> <CardinalOfThatHex>. |" +
+        " Build a road with !{0} build road <hexCardinal> <CardinalOfThatHex>. |" +
         " Claim one or multiple resource with !{0} hex <hexCardinal> <hexCardinal> <...>. |" +
         " Trade resources using !{0} trade <res> <res>. e.g. !{0} trade brick lumber: trades 3 brick for 1 lumber. Valid resources are BRICK, LUMBER, ORE, GRAIN, WOOL. |" +
         " Discard resources during thiefmode with !{0} discard <res> <number>. e.g. !{0} discard brick 4, discards 4 brick. |" +
@@ -1756,28 +1756,6 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                 }
                 yield break;
             }
-            else if (Regex.IsMatch(command, @"^street +[a-z][a-z]? +[a-z][a-z]?$"))
-            {
-                command = command.Substring(7).Trim();
-                if (validHexCoords.Contains(command.Substring(0, 2).Replace(" ", "")))
-                {
-                    if (validStreetCoords.Contains(command.Substring(command.Length - 2, 2).Replace(" ", "")))
-                    {
-                        yield return null;
-                        int temp = TPStringtoIntStreet(command);
-                        Streets[temp].OnInteract();
-                    }
-                    else
-                    {
-                        yield return "sendtochaterror Invalid street coordinates.";
-                    }
-                }
-                else
-                {
-                    yield return "sendtochaterror Invalid hex coordinates.";
-                }
-                yield break;
-            }
             else if (Regex.IsMatch(command, @"^road +[a-z][a-z]? +[a-z][a-z]?$"))
             {
                 command = command.Substring(5).Trim();
@@ -1791,7 +1769,7 @@ public class SettlersOfKTaNEScript : MonoBehaviour
                     }
                     else
                     {
-                        yield return "sendtochaterror Invalid street coordinates.";
+                        yield return "sendtochaterror Invalid road coordinates.";
                     }
                 }
                 else
